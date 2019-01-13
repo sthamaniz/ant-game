@@ -4,82 +4,84 @@
     </head>
     <body>
         <div id="field" style="height:100%;width:100%;background-color:grey;">
-            <div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:10px;left:10px;"></div>
-            <div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:100px;left:100px;"></div>
-            <div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:500px;left:400px;"></div>
-            <div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:300px;left:100px;"></div>
-            <div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:100px;left:300px;"></div>
+            <div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:25px;left:25px;"></div>
+            <div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:75px;left:75px;"></div>
         </div>
 
         <button id="pause" style="position:absolute; top:0px;">pause</button>
         
         <script>
+            const screenOverFlow = 55;
+
             let field = document.getElementById('field');
-            let ants = field.children;
+            let numberOfAnts = 0; 
 
-            let antslist = [];
+            let displayAnts = ``;
+            for (let a = 0; a < numberOfAnts; a++) {
 
-            for (let i = 0; i < ants.length; i++) {
-                antslist.push(ants[i]);
+                let initialAntPositionTop = Math.floor(Math.random() * (parseFloat(window.innerHeight) - parseFloat(screenOverFlow))) + 1;
+                let initialAntPositionLeft = Math.floor(Math.random() * (parseFloat(window.innerWidth) - parseFloat(screenOverFlow))) + 1;
+
+                displayAnts += `<div style="height:50px;width:50px;background-color:white;border-radius:50px;position:absolute;top:${initialAntPositionTop};left:${initialAntPositionLeft};"></div>`;
+            }
+            // field.innerHTML = displayAnts;
+
+            let antsList = [];
+            for (let i = 0; i < field.children.length; i++) {
+                antsList.push(field.children[i]);
             }
 
-            let setantposition = antslist.map(positionant => {
-                let setantpositiontop = Math.floor(Math.random() * (parseFloat(window.innerHeight) - parseFloat(55))) + 1;
-                let setantpositionleft = Math.floor(Math.random() * (parseFloat(window.innerWidth) - parseFloat(55))) + 1;
+            antsList.forEach(list => {
+                let antPositionTop = list.style.getPropertyValue('top');
+                let antPositionLeft = list.style.getPropertyValue('left');
 
-                positionant.style.top = setantpositiontop;
-                positionant.style.left = setantpositionleft;
+                let antMovementTop;
+                let antMovementLeft;
 
-            }); 
+                const antMovementSize = 5;
 
-            let moveantpostion = antslist.map(moveant => {
+                console.log(list.offsetTop,list.offsetLeft);
+                console.log(list.width);
+                let center=[list.offsetLeft+list.width/2,list.offsetTop+list.height/2];
+                console.log(center)
 
-                let antpositiontop = moveant.style.getPropertyValue('top'); 
-                let antpositionleft = moveant.style.getPropertyValue('left'); 
+                // setInterval(() => {
+                //     let windowHeight = parseFloat(window.innerHeight) - parseFloat(screenOverFlow);
+                //     let windowWidth = parseFloat(window.innerWidth) - parseFloat(screenOverFlow);
 
-                let antmovementtop; 
-                let antmovementleft; 
-                
-                let moveanttimeinterval = setInterval(()=> {
-                    let windowheight = parseFloat(window.innerHeight) - parseFloat(55);
-                    let windowwidth = parseFloat(window.innerWidth) - parseFloat(55);
-                    
-                    if (antpositiontop <= 10) {
-                        antmovementtop = 'increase';
-                    } else if (antpositiontop >= windowheight) {
-                        antmovementtop = 'decrease';
-                    }
+                //     if (antPositionTop <= 10) {
+                //         antMovementTop = 'increase';
+                //     } else if (antPositionTop >= windowHeight) {
+                //         antMovementTop = 'decrease';
+                //     }
     
-                    if (antpositionleft <= 10) {
-                        antmovementleft = 'increase';
-                    } else if (antpositionleft >= windowwidth) {
-                        antmovementleft = 'decrease';
-                    }
+                //     if (antPositionLeft <= 10) {
+                //         antMovementLeft = 'increase';
+                //     } else if (antPositionLeft >= windowWidth) {
+                //         antMovementLeft = 'decrease';
+                //     }
     
-                    moveant.style.top = antpositiontop;
-                    moveant.style.left = antpositionleft;
+                //     list.style.top = antPositionTop;
+                //     list.style.left = antPositionLeft;
     
-                    if (antmovementtop == 'increase') {
-                        antpositiontop = parseFloat(antpositiontop) + parseFloat(5);
-                    } else if (antmovementtop == 'decrease') {
-                        antpositiontop = parseFloat(antpositiontop) - parseFloat(5);
-                    } else {
-                        antpositiontop = parseFloat(antpositiontop) + parseFloat(5);
-                    }
+                //     if (antMovementTop == 'increase') {
+                //         antPositionTop = parseFloat(antPositionTop) + parseFloat(antMovementSize);
+                //     } else if (antMovementTop == 'decrease') {
+                //         antPositionTop = parseFloat(antPositionTop) - parseFloat(antMovementSize);
+                //     } else {
+                //         antPositionTop = parseFloat(antPositionTop) + parseFloat(antMovementSize);
+                //     }
     
-                    if (antmovementleft == 'increase') {
-                        antpositionleft = parseFloat(antpositionleft) + parseFloat(5);
-                    } else if (antmovementleft == 'decrease') {
-                        antpositionleft = parseFloat(antpositionleft) - parseFloat(5);
-                    } else {
-                        antpositionleft = parseFloat(antpositionleft) + parseFloat(5);
-                    }
-    
-    
-                },40);
+                //     if (antMovementLeft == 'increase') {
+                //         antPositionLeft = parseFloat(antPositionLeft) + parseFloat(antMovementSize);
+                //     } else if (antMovementLeft == 'decrease') {
+                //         antPositionLeft = parseFloat(antPositionLeft) - parseFloat(antMovementSize);
+                //     } else {
+                //         antPositionLeft = parseFloat(antPositionLeft) + parseFloat(antMovementSize);
+                //     }
 
+                // },40);
             });
-
             
         </script>
     </body>
