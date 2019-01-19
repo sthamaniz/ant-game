@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Ant Game</title>
+        <script src="functions.js"></script>
+    </head>
+    <body>
+        <div id="field" style="height:100%;width:100%;background-color:grey;">
+        </div>
+
+        <button id="pause" style="position:absolute; top:0px;">pause</button>
+        
+        <script>
+
+
+            const field = document.getElementById('field');
+            init(field);
+            startGameLoop();
+
+
+
+
+
+
+            let ant = field.children;
+            for (let i = 0; i < ant.length; i++) {
+
+                let antPositionTop = ant[i].style.getPropertyValue('top');
+                let antPositionLeft = ant[i].style.getPropertyValue('left');
+    
+
+                let antMovementTop;
+                let antMovementLeft;
+
+                
+            }
+            
+        </script>
+    </body>
+</html>
