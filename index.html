@@ -1,42 +1,28 @@
 <html>
     <head>
         <title>Ant Game</title>
+        <script src="./scripts/constants.js"></script>
+        <script src="./scripts/functions.js"></script>
+        <script src="./scripts/game.js"></script>
     </head>
     <body>
-        <div id="field" style="height:100%;width:100%;background-color:grey;">
-        </div>
-
+        <div id="field" style="height:100%;width:100%;background-color:grey;"></div>
         <button id="pause" style="position:absolute; top:0px;">pause</button>
-        
+
         <script>
-            const screenOverFlow = 55;
-            const heightOfAnt = 50;
-            const widthOfAnt = 50;
-            const numberOfAnts = 2; 
 
-            const field = document.getElementById('field');
-
-            let displayAnts = ``;
-            for (let a = 0; a < numberOfAnts; a++) {
-
-                let initialAntPositionTop = Math.floor(Math.random() * (parseFloat(window.innerHeight) - parseFloat(screenOverFlow))) + 1;
-                let initialAntPositionLeft = Math.floor(Math.random() * (parseFloat(window.innerWidth) - parseFloat(screenOverFlow))) + 1;
-
-                displayAnts += `<div style="height:${heightOfAnt}px;width:${widthOfAnt}px;background-color:white;border-radius:50px;position:absolute;top:${initialAntPositionTop};left:${initialAntPositionLeft};"></div>`;
-            }
-            field.innerHTML = displayAnts;
+            
+            const field = document.getElementById('field'); //The field where the ants are going to be displayed
+            const game = new Game(field); //Create a game object
+            game.init(); //Initialize the ant positions
 
             let ant = field.children;
             for (let i = 0; i < ant.length; i++) {
 
-                let antPositionTop = ant[i].style.getPropertyValue('top');
-                let antPositionLeft = ant[i].style.getPropertyValue('left');
+                const antPosition = getAntPosition(ant);
     
-
                 let antMovementTop;
                 let antMovementLeft;
-
-                const antMovementSize = 1;
 
                 setInterval(() => {
 
@@ -86,9 +72,8 @@
                         antMovementLeft = 'decrease';
                     }
     
-                    ant[i].style.top = antPositionTop;
-                    ant[i].style.left = antPositionLeft;
-    
+                    updateAntPosition(ant[i], antMovementTop, antMovementLeft);
+
                     if (antMovementTop == 'increase') {
                         antPositionTop = parseFloat(antPositionTop) + parseFloat(antMovementSize);
                     } else if (antMovementTop == 'decrease') {
