@@ -19,8 +19,9 @@
             let ant = field.children;
             for (let i = 0; i < ant.length; i++) {
 
-                const antPosition = getAntPosition(ant);
-    
+                const antPosition = getAntPosition(ant[i]); //Getting the current ant position
+                        // for example: antPosition = { top:123, left: 12 }
+                
                 let antMovementTop;
                 let antMovementLeft;
 
